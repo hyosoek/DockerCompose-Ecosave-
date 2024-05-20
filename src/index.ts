@@ -13,7 +13,7 @@ import refrigeratorRoute from '@routes/refrigerator.route';
 import notFoundException from '@middlewares/notFoundException';
 import responseOverride from '@middlewares/responseOverride';
 import { httpLogger } from '@modules/logger';
-import { redisClient } from '@configs/database/redis';
+// import { redisClient } from '@configs/database/redis';
 
 //create express server
 const app = express();
@@ -22,7 +22,7 @@ const httpsPort = Number(process.env.HTTPS_PORT_NUM);
 const server: https.Server = https.createServer(sslOptions, app);
 
 //redis
-const redisClient_ = redisClient;
+// const redisClient_ = redisClient;
 
 //protocol
 app.get('*', (req: Request, res: Response, next: NextFunction) => {
