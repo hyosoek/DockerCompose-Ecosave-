@@ -10,13 +10,14 @@ class AccountController {
 
   //Error handling with validation
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
-    const { mail, pw }: { mail: string; pw: string } = req.body; //
+    const { mail, pw }: { mail: string; pw: string } = req.body;
     try {
       inputCheck(mail).isNotEmpty().isLength({ min: 4, max: 100 }).isMail();
       inputCheck(pw).isNotEmpty().isLength({ min: 4, max: 100 });
       await this.accountService.logIn(req.body, res);
       res.status(HttpStatus.OK).send();
     } catch (err) {
+      console.log(err);
       next(err);
     }
   };

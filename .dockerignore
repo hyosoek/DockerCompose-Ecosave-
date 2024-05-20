@@ -1,0 +1,2 @@
+node_modules   # node_modules을 copy하지 않고, package manager를 통해 설치 할 것.
+# npm-debug.log  # debug log 제외

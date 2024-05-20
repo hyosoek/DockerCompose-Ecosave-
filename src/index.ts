@@ -4,7 +4,6 @@ import https from 'https';
 import cookieParser from 'cookie-parser';
 import errorHandler from '@middlewares/errorHandler';
 import cors from 'cors';
-import * as redis from 'redis';
 import { sslOptions } from 'configs/sslOptions';
 import { config } from 'dotenv';
 config({ path: '.env' });
@@ -14,6 +13,7 @@ import refrigeratorRoute from '@routes/refrigerator.route';
 import notFoundException from '@middlewares/notFoundException';
 import responseOverride from '@middlewares/responseOverride';
 import { httpLogger } from '@modules/logger';
+import { redisClient } from '@configs/database/redis';
 
 //create express server
 const app = express();
@@ -22,8 +22,7 @@ const httpsPort = Number(process.env.HTTPS_PORT_NUM);
 const server: https.Server = https.createServer(sslOptions, app);
 
 //redis
-const redisClient: redis.RedisClientType = redis.createClient();
-redisClient.connect();
+const redisClient_ = redisClient;
 
 //protocol
 app.get('*', (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +30,7 @@ app.get('*', (req: Request, res: Response, next: NextFunction) => {
   if (protocol == 'https') {
     next();
   } else {
-    const destination: string = `https://${req.hostname}:${httpsPort}${req.url}`;
+    const destination = `https://${req.hostname}:${httpsPort}${req.url}`;
     res.redirect(destination);
   }
 });
