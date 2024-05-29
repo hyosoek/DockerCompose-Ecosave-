@@ -11,6 +11,7 @@ services:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
   app:
     build:
       context: .
@@ -28,7 +29,7 @@ services:
       - |
         wait-for-it.sh db:5432 -t 10
         npx prisma generate
-        npx prisma migrate deploy
+        npx prisma db pull
         npm run dev
 
 volumes:
